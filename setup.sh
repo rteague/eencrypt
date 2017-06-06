@@ -2,47 +2,45 @@
 
 function installp
 {
-	cp ${_eencrypt[0]} ${_eencrypt[1]}
-	chmod a+x ${_eencrypt[1]}
-	
+	cp ${exec_dirs[0]} ${exec_dirs[1]}
+	chmod a+x ${exec_dirs[1]}
 	echo "Installed..."
-			
 	return 0
 }
 
 function uninstallp
 {
-	rm ${_eencrypt[1]}
-	
+	rm ${exec_dirs[1]}
 	echo "Uninstalled..."
-	
 	return 0
 }
 
-function __main__
+function prog_usage
 {
-	declare -r USAGE="usage: setup.sh install|uninstall"
-	
-	declare -ra _eencrypt=(eencrypt.sh /usr/local/bin/eencrypt)
-	
+    echo "usage: setup.sh install|uninstall"
+}
+
+function main
+{
+	declare -ra exec_dirs=(eencrypt.sh /usr/local/bin/eencrypt)
 	case "$1" in
-                "install"   )
-                        if ! installp; then
-                                exit 1
-                        fi
-                        ;;
-                "uninstall" )
-                        if ! uninstallp; then
-                                exit 1
-                        fi
-                        ;;
-                          * )
-                        echo "$USAGE"
-                        exit 1
-        esac
-	
+        "install"   )
+            if ! installp; then
+                exit 1
+            fi
+            ;;
+        "uninstall" )
+            if ! uninstallp; then
+                exit 1
+            fi
+            ;;
+        * )
+            prog_usage
+            exit 1
+    esac
+
 	exit 0
 }
 
-__main__ "$@"
+main "$@"
 
